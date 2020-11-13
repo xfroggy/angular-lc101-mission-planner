@@ -1,7 +1,19 @@
 <h3>Equipment</h3>
 <ul>
-  <li>Habitat dome</li>
-  <li>Drones</li>
-  <li>Food containers</li>
-  <li>Oxygen tanks</li>
+  <li *ngFor="let unit of equipment" >
+    <span *ngIf="unitBeingEdited !== unit; else unitElseBlock">
+      <!-- display state of unit -->
+      <span (click)="editUnit(unit)" class="editable-text">{{unit.item}}</span>
+      <button (click)="removeUnit(unit)">remove</button>
+    </span>
+
+    <ng-template #unitElseBlock>
+    <!-- edit state of crewMember -->
+    <input #updatedUnitName (keyup.enter)="saveUnit(updatedUnitName.value, unit)" value = "{{unit.item}}"/>
+    <button (click)="saveUnit(updatedUnitName.value, unit)">save</button>
+    </ng-template>
+  </li>
 </ul>
+
+<input #unitName type="text"/>
+<button (click)="addUnit(unitName.value)">Add</button>

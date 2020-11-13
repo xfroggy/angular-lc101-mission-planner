@@ -21,7 +21,10 @@ export class CrewComponent implements OnInit {
   }
 
   add(memberName: string, isFirst: boolean){
-    this.crew.push({name: memberName, firstMission: isFirst});
+    if (!this.memberExists(memberName)){
+      this.crew.push({name: memberName, firstMission: isFirst});
+    }
+    
   }
 
   remove(member: object){
@@ -34,10 +37,21 @@ export class CrewComponent implements OnInit {
   }
 
   save(name: string, member: object){
-    member['name'] = name;
-    this.memberBeingEdited = null;
+
+    if (!this.memberExists(name)) {
+      member['name'] = name;        
+      this.memberBeingEdited = null;
+    }         
   }
 
-  
-
+  memberExists(name: string): boolean {
+    let alreadyExists = false;
+    for (const crewMember of this.crew){
+      if (crewMember['name'] === name) {
+        alert("This member already exists");
+        alreadyExists = true;        
+      } 
+    }
+    return alreadyExists;
+  }
 }
